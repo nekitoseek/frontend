@@ -17,7 +17,7 @@ export default function Register() {
     });
 
     useEffect(() => {
-       axios.get("http://localhost:8000/groups").then((res) => {
+       axios.get("/api/groups").then((res) => {
            setGroups(res.data);
        });
     }, []);
@@ -29,14 +29,14 @@ export default function Register() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            await axios.post("http://localhost:8000/register", {
+            await axios.post("/api/register", {
                 ...formData,
                 group_id: Number(formData.group_id),
             });
             alert("Регистрация прошла успешно");
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
-                alert(err.response?.data?.detail || "Ошибка входа");
+                alert(err.response?.data?.detail || "Ошибка регистрации");
             } else {
                 alert("Непредвиденная ошибка");
             }
