@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { login } from "../api/auth";
 
 export default function Login() {
     const [formData, setFormData] = useState({username: '', password: ''});
@@ -18,48 +18,25 @@ export default function Login() {
         data.append('password', formData.password);
 
         try {
-            const response = await axios.post("/api/login", data, {
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            });
-
-            const token = response.data.access_token;
-            localStorage.setItem("token", token);
-
-            // переход на главную после авторизации
-            navigate("/");
+            const res = await login(data);
+            localStorage.setItem('token', res.data.access_token);
+            navigate('/queues');
         } catch (err: unknown) {
-            if (axios.isAxiosError(err)) {
-                alert(err.response?.data?.detail || "Ошибка входа");
-            } else {
-                alert("Непредвиденная ошибка");
-            }
+            alert("Ошибка входа");
+            console.error(err);
         }
     };
 
     return (
         <>
             <div>
-                <form onSubmit={handleSubmit} className="">
-                    <h2 className="">Вход</h2>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Логин"
-                        onChange={handleChange}
-                        className=""
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Пароль"
-                        onChange={handleChange}
-                        className=""
-                        required
-                    />
-                    <button type="submit" className="">Войти</button>
+                <form onSubmit={handleSubmit}>
+                    <h2>Вход</h2>
+                    <input type="text" name="username" placeholder="Логин" onChange={handleChange} required />
+                    <input type="password" name="password" placeholder="Пароль" onChange={handleChange} required />
+                    <button type="submit">Войти</button>
                 </form>
             </div>
         </>
-    )
+    );
 }
