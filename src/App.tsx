@@ -1,22 +1,39 @@
 import { Routes, Route } from 'react-router-dom';
-import Welcome from "./pages/Welcome";
+import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import QueueDetails from "./pages/QueueDetails";
 import Queues from "./pages/Queues";
-import './App.css';
+import RequireAuth from "./components/RequireAuth";
+import { useAuth } from "./context/AuthContext";
+import HeaderPrivate from "./components/HeaderPrivate.tsx";
+import HeaderPublic from "./components/HeaderPublic.tsx";
+// import './App.css';
 
 export default function App() {
+    const { user, loading } = useAuth();
 
-  return (
-      <>
-          <Routes>
-              <Route path="/" element={<Welcome />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/queues/:id" element={<QueueDetails />} />
-              <Route path="/queues" element={<Queues />} />
-          </Routes>
-      </>
-  );
+    if (loading) return null;
+
+    return (
+        <>
+            {user ? <HeaderPrivate /> : <HeaderPublic />}
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/queues/:id" element={
+                    <RequireAuth>
+                        <QueueDetails />
+                    </RequireAuth>
+                }/>
+                <Route path="/queues" element={
+                    <RequireAuth>
+                        <Queues />
+                    </RequireAuth>
+                }
+                />
+            </Routes>
+        </>
+    );
 }

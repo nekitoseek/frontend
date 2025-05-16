@@ -19,14 +19,14 @@ export default function Queues() {
 
     return (
         <>
-            <div>
-                <h1>Активные очереди</h1>
+            <div className="max-w-6xl mx-auto px-4 py-12">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 text-center">Активные очереди</h1>
                 {loading ? (
-                    <p>Загрузка...</p>
+                    <p className="text-center text-gray-500 text-sm">Загрузка...</p>
                 ) : queues.length === 0 ? (
-                    <p>Очередей пока нет.</p>
+                    <p className="text-center text-gray-500 text-sm">Очередей пока нет.</p>
                 ) : (
-                    <ul>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {queues.map((queue) => (
                             <QueueCard key={queue.id} queue={queue} />
                         ))}

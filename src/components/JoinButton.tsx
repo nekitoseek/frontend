@@ -17,7 +17,10 @@ export default function JoinButton({ queueId }: Props) {
 
     return (
         <>
-            <button onClick={handleJoin}>Присоединиться</button>
+            <button
+                onClick={handleJoin}
+                className="bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition"
+            >Присоединиться</button>
         </>
     );
 }

@@ -17,7 +17,10 @@ export default function LeaveButton({ queueId }: Props) {
 
     return (
         <>
-            <button onClick={handleLeave}>
+            <button
+                onClick={handleLeave}
+                className="bg-red-100 hover:bg-red-200 text-red-700 font-medium text-sm py-2 px-4 rounded-xl transition shadow-sm"
+            >
                 Покинуть очередь
             </button>
         </>

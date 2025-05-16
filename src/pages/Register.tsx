@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth.ts";
+import { useAuth } from "../context/AuthContext";
 import { getGroups } from "../api/groups";
 
 type Group = {
@@ -56,24 +56,70 @@ export default function Register() {
 
     return (
         <>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <h2>Регистрация</h2>
-                    <input type="text" name="username" placeholder="Логин" onChange={handleChange} required />
-                    <input type="password" name="password" placeholder="Пароль" onChange={handleChange} required />
-                    <input type="text" name="full_name" placeholder="Фамилия, имя" onChange={handleChange} required />
-                    <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-                    <select name="group_id" onChange={handleChange} value={formData.group_id} required>
-                        <option value="">Выберите группу</option>
-                        {groups.map((g) => (
-                            <option key={g.id} value={g.id}>
-                                {g.name}
-                            </option>
-                        ))}
-                    </select>
-                    <button type="submit">Зарегистрироваться</button>
-                    <Link to="/login">Уже есть аккаунт?</Link>
-                </form>
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-4">
+                <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-100">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Регистрация</h2>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Логин"
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Пароль"
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                        />
+                        <input
+                            type="text"
+                            name="full_name"
+                            placeholder="Фамилия, имя"
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                        />
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                        />
+                        <select
+                            name="group_id"
+                            onChange={handleChange}
+                            value={formData.group_id}
+                            required
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                        >
+                            <option value="">Выберите группу</option>
+                            {groups.map((g) => (
+                                <option key={g.id} value={g.id}>
+                                    {g.name}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            type="submit"
+                            className="w-full bg-sky-600 hover:bg-sky-700 text-white font-medium py-3 rounded-xl shadow transition"
+                        >
+                            Зарегистрироваться
+                        </button>
+                    </form>
+                    <p className="text-center text-sm text-gray-500 mt-6">
+                        Уже есть аккаунт?{" "}
+                        <Link to="/login" className="text-sky-600 hover:underline">
+                            Войти
+                        </Link>
+                    </p>
+                </div>
             </div>
         </>
     );

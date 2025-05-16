@@ -6,11 +6,13 @@ export const login = (data: URLSearchParams) => {
     });
 };
 
-export const getCurrentUser = () => {
+export const getCurrentUser = async () => {
     const token = localStorage.getItem("token");
-    if (!token) throw new Error("Токен отстутствует");
+    if (!token) return null;
 
-    return axios.get("/api/me", {
-        headers: { Authorization: `Bearer ${token}` },
+    const response = await axios.get("/api/me", {
+        headers: {
+            Authorization: `Bearer ${token}` },
     });
+    return response.data;
 };
