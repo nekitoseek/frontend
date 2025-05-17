@@ -6,8 +6,9 @@ import QueueDetails from "./pages/QueueDetails";
 import Queues from "./pages/Queues";
 import RequireAuth from "./components/RequireAuth";
 import { useAuth } from "./context/AuthContext";
-import HeaderPrivate from "./components/HeaderPrivate.tsx";
-import HeaderPublic from "./components/HeaderPublic.tsx";
+import HeaderPrivate from "./components/HeaderPrivate";
+import HeaderPublic from "./components/HeaderPublic";
+import CreateQueuePage from "./pages/CreateQueuePage";
 // import './App.css';
 
 export default function App() {
@@ -27,6 +28,11 @@ export default function App() {
                         <QueueDetails />
                     </RequireAuth>
                 }/>
+                <Route path="/queues/create" element={
+                    <RequireAuth>
+                        <CreateQueuePage />
+                    </RequireAuth>
+                } />
                 <Route path="/queues" element={
                     <RequireAuth>
                         <Queues />
