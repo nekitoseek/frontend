@@ -8,10 +8,14 @@ export default function RequireAuth({ children }: { children: JSX.Element }) {
 
     if (loading) return null;
 
-    const guestPaths = ["/", "/login", "/register"];
+    const isAdminRoute = location.pathname.startsWith("/admin");
 
-    if (!user && !guestPaths.includes(location.pathname)) {
+    if (!user) {
         return <Navigate to="/" state={{ from: location }} replace />
+    }
+
+    if (isAdminRoute && user.username !== "admin") {
+        return <Navigate to="/" replace />;
     }
     return children;
 }

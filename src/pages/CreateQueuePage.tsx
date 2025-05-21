@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getGroups } from "../api/groups";
+import { Group } from "../types/Queue";
 
 export default function CreateQueuePage() {
     const navigate = useNavigate();
 
-    const [groups, setGroups] = useState<unknown[]>([]);
-    const [disciplines, setDisciplines] = useState<unknown[]>([]);
+    type Discipline = { id: number; name: string };
+
+    const [groups, setGroups] = useState<Group[]>([]);
+    const [disciplines, setDisciplines] = useState<Discipline[]>([]);
     const [formData, setFormData] = useState({
         title: "",
         description: "",
         scheduled_date: "",
+        scheduled_end: "",
         discipline_id: "",
         group_ids: [] as number[],
     });
@@ -47,6 +51,11 @@ export default function CreateQueuePage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
+
+        if (formData.group_ids.length === 0) {
+            alert("Выберите хотя бы одну группу");
+            return;
+        }
 
         const response = await fetch("/api/queues", {
             method: "POST",
@@ -95,6 +104,14 @@ export default function CreateQueuePage() {
                             required
                             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
                         />
+                        <input
+                            type="datetime-local"
+                            name="scheduled_end"
+                            value={formData.scheduled_end}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                        />
                         <select
                             name="discipline_id"
                             value={formData.discipline_id}
@@ -117,7 +134,6 @@ export default function CreateQueuePage() {
                                             checked={formData.group_ids.includes(group.id)}
                                             onChange={() => toggleGroup(group.id)}
                                             className="accent-sky-600"
-                                            required
                                         />
                                         <span className="text-gray-800 text-sm">{group.name}</span>
                                     </label>

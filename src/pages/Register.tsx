@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getGroups } from "../api/groups";
-
-type Group = {
-    id: number;
-    name: string;
-};
+import { Group } from "../types/Queue";
 
 export default function Register() {
     const { user, loading, setUser } = useAuth();

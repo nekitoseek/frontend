@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Queue } from "../types/Queue.ts";
+import { Queue } from "../types/Queue";
 import JoinButton from "./JoinButton";
+import QueueCount from "./QueueCount";
 
 type Props = {
     queue: Queue;
@@ -16,12 +17,22 @@ export default function QueueCard({ queue }: Props) {
                         <span className="font-medium">Время проведения:</span>{" "}
                         {new Date(queue.scheduled_date).toLocaleString("ru-RU")}
                     </p>
-                    <p className="text-sm text-gray-500 mb-2">
-                        <span className="font-medium">Статус:</span> {queue.status}
-                    </p>
+                    {/*<p className="text-sm text-gray-500 mb-2">*/}
+                    {/*    <span className="font-medium">Статус:</span> {queue.status}*/}
+                    {/*</p>*/}
                     {queue.description && (
                         <p className="text-sm text-gray-600 mb-4">{queue.description}</p>
                     )}
+                    <p className="text-sm text-gray-500 mb-1">
+                        <span className="font-medium">Дисциплина:</span> {queue.discipline.name}
+                    </p>
+                    {queue.groups && queue.groups.length > 0 && (
+                        <p className="text-sm text-gray-500 mb-2">
+                            <span className="font-medium">Группы:</span>{" "}
+                            {queue.groups.map((g) => g.name).join(", ")}
+                        </p>
+                    )}
+                    <QueueCount queueId={queue.id} />
                 </div>
                 <div className="mt-auto flex items-center justify-between pt-4">
                     <JoinButton queueId={queue.id} />
