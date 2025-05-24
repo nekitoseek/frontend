@@ -6,13 +6,7 @@ import LeaveButton from "../components/LeaveButton";
 import EditQueueModal from "../components/EditQueueModal";
 import { fetchQueueStudents } from "../api/queues";
 import { useAuth } from "../context/AuthContext";
-
-type Student = {
-    id: number;
-    username: string;
-    full_name: string;
-    email: string;
-};
+import {Student} from "../types/Student";
 
 export default function QueueDetails() {
     const { id } = useParams();
@@ -21,6 +15,8 @@ export default function QueueDetails() {
     const [students, setStudents] = useState<Student[]>([]);
     const [editing, setEditing] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [joinVersion, setJoinVersion] = useState(0);
+    const isJoined = students.some(s => s.id === user?.id);
 
     useEffect(() => {
         if (!id) return;
@@ -40,6 +36,17 @@ export default function QueueDetails() {
         .catch(console.error)
         .finally(() => setLoading(false));
     }, [id]);
+
+    const loadStudents = async () => {
+        if (!id) return;
+        try {
+            const data = await fetchQueueStudents(Number(id));
+            setStudents(data);
+            setJoinVersion(prev => prev + 1);
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     const handleManualClose = async () => {
         const token = localStorage.getItem("token");
@@ -63,6 +70,9 @@ export default function QueueDetails() {
     if (loading) return <p className="text-center py-8 text-gray-500">Загрузка...</p>;
     if (!queue) return <p className="text-center py-8 text-gray-500">Очередь не найдена</p>;
 
+    const currentParticipant = students.find(s => s.id === user?.id);
+    const isCurrent = currentParticipant?.status === "current";
+
     return (
         <>
             <div className="max-w-4xl mx-auto px-4 py-12">
@@ -78,7 +88,7 @@ export default function QueueDetails() {
                     {/*<p className="text-gray-600 mb-4">*/}
                     {/*    <span className="font-medium">Статус:</span> {queue.status}*/}
                     {/*</p>*/}
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-gray-600 mb-2">
                         <span className="font-medium">Дисциплина:</span> {queue.discipline.name}
                     </p>
                     {queue.groups && queue.groups.length > 0 && (
@@ -87,8 +97,37 @@ export default function QueueDetails() {
                         </p>
                     )}
                     <div className="flex gap-4 mt-6">
-                        <JoinButton queueId={queue.id} />
-                        <LeaveButton queueId={queue.id} />
+                        {isCurrent && (
+                            <button
+                                onClick={async () => {
+                                    try {
+                                        const token = localStorage.getItem("token");
+                                        const res = await fetch(`/api/queues/${queue.id}/complete`, {
+                                            method: "POST",
+                                            headers: { Authorization: `Bearer ${token}` },
+                                        });
+                                        if (!res.ok) {
+                                            const err = await res.json();
+                                            throw new Error(err.detail || "Ошибка");
+                                        }
+                                        alert("Вы отметили сдачу, следующий сдающий назначен.");
+                                        loadStudents();
+                                    } catch (err) {
+                                        console.error(err);
+                                        alert("Не удалось завершить сдачу");
+                                    }
+                                }}
+                                className="bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition"
+                            >
+                                Я сдал
+                            </button>
+                        )}
+
+                        <JoinButton key={joinVersion} queueId={queue.id} autoCheck onChange={() => {
+                            loadStudents();
+                            setJoinVersion(prev => prev + 1);
+                        }} />
+                        {isJoined && <LeaveButton queueId={queue.id} onChange={loadStudents} />}
                         {(user?.id === queue.creator_id || user?.username === "admin") && queue.status !== "closed" && (
                             <>
                                 <button onClick={handleManualClose} className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition">
@@ -106,14 +145,19 @@ export default function QueueDetails() {
                     {students.length === 0 ? (
                         <p className="text-gray-500">В очереди никого нет</p>
                     ) : (
-                        <ol className="space-y-2">
+                        <ol className="space-y-3">
                             {students.map((s, idx) => (
-                                <li key={s.id} className="text-gray-700 flex gap-2 items-start">
-                                    <span className="text-gray-400 font-mono w-6 text-right">{idx + 1}.</span>
-                                    <span>
-                                        <span className="font-medium">{s.full_name}</span>{" "}
-                                        <span className="text-sm text-gray-500">({s.username}), {s.email})</span>
-                                    </span>
+                                <li key={s.id} className="flex  justify-between items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 shadow-sm">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-gray-400 font-mono w-6 text-right">{idx + 1}.</span>
+                                        <span className="font-medium text-gray-800">{s.full_name}</span>{" "}
+                                        <span className="text-sm text-gray-500">({s.group})</span>
+                                    </div>
+                                    {user?.username === "admin" && (
+                                        <div className="text-sm text-gray-400 text-right min-w-fit ml-4">
+                                            Присоединился: {new Date(s.joined_at).toLocaleString("ru-RU")}
+                                        </div>
+                                    )}
                                 </li>
                             ))}
                         </ol>

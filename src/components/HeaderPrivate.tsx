@@ -21,6 +21,9 @@ export default function HeaderPrivate() {
                         {location.pathname !== "/queues" && (
                             <Link to="/queues" className="hover:text-gray-900 transition">Очереди</Link>
                         )}
+                        {location.pathname !== "/admin" && user?.username === "admin" && (
+                            <Link to="/admin" className="hover:text-gray-900 transition">Админ-панель</Link>
+                        )}
                         <Link to="/profile" className="font-medium text-sky-700 hover:underline underline-offset-4 transition">
                             {user?.full_name}
                         </Link>

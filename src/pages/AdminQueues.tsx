@@ -62,10 +62,10 @@ export default function AdminQueues() {
                             {queues.map((q) => (
                                 <li key={q.id} className="bg-gray-50 rounded-xl border border-gray-200 shadow-sm p-6 space-y-2">
                                     <h2 className="text-xl font-semibold text-gray-800">{q.title}</h2>
-                                    <p className="text-sm text-gray-600">
-                                        <span className="font-medium">Даты:</span>{" "}
-                                        {new Date(q.scheduled_date).toLocaleDateString("ru-RU")}
-                                    </p>
+                                    <p className="text-sm text-gray-600"><span className="font-medium">Описание:</span> {q.description || "–"}</p>
+                                    <p className="text-sm text-gray-600"><span className="font-medium">Создана:</span> {new Date(q.created_at).toLocaleString("ru-RU")}</p>
+                                    <p className="text-sm text-gray-600"><span className="font-medium">Начало:</span> {new Date(q.scheduled_date).toLocaleString("ru-RU")}</p>
+                                    <p className="text-sm text-gray-600"><span className="font-medium">Окончание:</span> {new Date(q.scheduled_end).toLocaleString("ru-RU")}</p>
                                     <p className="text-sm text-gray-600">
                                         <span className="font-medium">Статус:</span>{" "}
                                         <span className={
@@ -76,6 +76,8 @@ export default function AdminQueues() {
                                             {q.status}
                                         </span>
                                     </p>
+                                    <p className="text-sm text-gray-600"><span className="font-medium">Создатель:</span> {q.creator?.username || "–"}</p>
+                                    <p className="text-sm text-gray-600"><span className="font-medium">Дисциплина:</span> {q.discipline?.name || "–"}</p>
                                     <p className="text-sm text-gray-600">
                                         <span className="font-medium">Группы:</span>{" "}
                                         {q.groups.map((g) => g.name).join(", ")}

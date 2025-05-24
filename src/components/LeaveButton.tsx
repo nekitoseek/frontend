@@ -2,13 +2,15 @@ import { leaveQueue } from "../api/queues";
 
 type Props = {
     queueId: number;
+    onChange?: () => void;
 };
 
-export default function LeaveButton({ queueId }: Props) {
+export default function LeaveButton({ queueId, onChange }: Props) {
     const handleLeave = async () => {
         try {
             await leaveQueue(queueId);
             alert("Вы покинули очередь");
+            onChange?.();
         } catch (err) {
             console.error(err);
             alert("Ошибка при выходе из очереди");

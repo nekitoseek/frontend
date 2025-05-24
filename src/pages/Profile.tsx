@@ -37,12 +37,22 @@ export default function Profile() {
         e.preventDefault();
         const token = localStorage.getItem("token");
 
-        const payload: any = {
-            full_name: formData.full_name,
-            email: formData.email,
-        };
+        const payload: any = {};
+
+        if (formData.full_name !== user?.full_name) {
+            payload.full_name = formData.full_name;
+        }
+
+        if (formData.email !== user?.email) {
+            payload.email = formData.email;
+        }
+
         if (formData.password.trim() !== "") {
             payload.password = formData.password;
+        }
+
+        if (formData.group_id && formData.group_id !== user?.group_id?.toString()) {
+            payload.group_id = Number(formData.group_id);
         }
 
         try {
@@ -124,10 +134,10 @@ export default function Profile() {
                                 name="group_id"
                                 value={formData.group_id}
                                 onChange={handleChange}
-                                required
+                                // required
                                 className="w-full px-4 py-2 rounded border border-gray-300"
                             >
-                                <option value="Выберите группу"></option>
+                                <option value="">Выберите группу</option>
                                 {groups.map((g) => (
                                     <option key={g.id} value={g.id}>{g.name}</option>
                                 ))}
