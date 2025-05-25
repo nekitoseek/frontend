@@ -49,6 +49,14 @@ export default function CreateQueuePage() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        const scheduled_date = new Date(formData.scheduled_date);
+        const now = new Date();
+        const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+        if (scheduled_date > oneDayLater) {
+            alert("Очередь можно создать не ранее, чем за 1 день до начала сдачи");
+            return;
+        }
         e.preventDefault();
         const token = localStorage.getItem("token");
 

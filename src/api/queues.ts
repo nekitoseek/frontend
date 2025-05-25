@@ -1,9 +1,11 @@
 import { Queue } from "../types/Queue";
 
 // отображение очередей
-export const fetchQueues = async (): Promise<Queue[]> => {
+export const fetchQueues = async (status: string): Promise<Queue[]> => {
     const token = localStorage.getItem("token");
-    const res = await fetch(`/api/queues`, {
+
+    const query = status ? `?status=${status}` : "";
+    const res = await fetch(`/api/queues${query}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
