@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getGroups} from "../api/groups";
 import {Group} from "../types/Queue";
+import toast from "react-hot-toast";
 
 export default function CreateQueuePage() {
     const navigate = useNavigate();
@@ -54,14 +55,14 @@ export default function CreateQueuePage() {
         const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
         if (scheduled_date > oneDayLater) {
-            alert("Очередь можно создать не ранее, чем за 1 день до начала сдачи");
+            toast.error("Очередь можно создать не ранее, чем за 1 день до начала сдачи");
             return;
         }
         e.preventDefault();
         const token = localStorage.getItem("token");
 
         if (formData.group_ids.length === 0) {
-            alert("Выберите хотя бы одну группу");
+            toast.error("Выберите хотя бы одну группу");
             return;
         }
 
@@ -75,11 +76,11 @@ export default function CreateQueuePage() {
         });
 
         if (response.ok) {
-            alert("Очередь создана");
+            toast.success("Очередь создана");
             navigate("/queues");
         } else {
             const error = await response.json();
-            alert("Ошибка: " + error.detail);
+            toast.error("Ошибка: " + error.detail);
         }
     };
 

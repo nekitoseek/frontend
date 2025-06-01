@@ -1,4 +1,5 @@
 import { leaveQueue } from "../api/queues";
+import toast from "react-hot-toast";
 
 type Props = {
     queueId: number;
@@ -9,11 +10,11 @@ export default function LeaveButton({ queueId, onChange }: Props) {
     const handleLeave = async () => {
         try {
             await leaveQueue(queueId);
-            alert("Вы покинули очередь");
+            toast.success("Вы покинули очередь");
             onChange?.();
         } catch (err) {
             console.error(err);
-            alert("Ошибка при выходе из очереди");
+            toast.error("Ошибка при выходе из очереди");
         }
     };
 

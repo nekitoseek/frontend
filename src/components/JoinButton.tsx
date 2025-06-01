@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import { joinQueue, fetchQueueStudents } from "../api/queues";
 import {useAuth} from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 type Props = {
     queueId: number;
@@ -36,11 +37,11 @@ export default function JoinButton({ queueId, onChange, disabled, autoCheck = fa
         if (isDisabled) return;
         try {
             await joinQueue(queueId);
-            alert("Вы присоединились к очереди");
+            toast.success("Вы присоединились к очереди");
             onChange?.();
         } catch (err) {
             console.error(err);
-            alert("Ошибка присоединения к очереди");
+            toast.error("Ошибка присоединения к очереди");
         }
     };
 

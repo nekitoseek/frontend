@@ -1,4 +1,5 @@
 import {Routes, Route} from 'react-router-dom';
+import {Toaster} from "react-hot-toast";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -19,7 +20,7 @@ export default function App() {
     return (
         <>
             <div className="min-h-screen flex flex-col">
-                <Header />
+                <Header/>
                 <main className="flex-1">
                     <Routes>
                         <Route path="/" element={<Home/>}/>
@@ -53,6 +54,27 @@ export default function App() {
                     </Routes>
                 </main>
                 <Footer/>
+                <Toaster
+                    position="top-center"
+                    toastOptions={{
+                        className: "bg-white border border-gray-200 text-center text-sm text-gray-800 rounded-xl shadow-xl px-4 py-3 max-w-md w-full",
+                        duration: 5000,
+                        success: {
+                            iconTheme: {
+                                primary: '#22c55e',
+                                secondary: '#ecfdf5',
+                            },
+                        },
+                        error: {
+                            iconTheme: {
+                                primary: '#ef4444',
+                                secondary: '#fef2f2',
+                            },
+                        },
+                    }}
+                    containerClassName="!z-[99999]"
+                    reverseOrder={false}
+                />
             </div>
         </>
     );

@@ -7,6 +7,7 @@ import EditQueueModal from "../components/EditQueueModal";
 import {fetchQueueStudents} from "../api/queues";
 import {useAuth} from "../context/AuthContext";
 import {Student} from "../types/Student";
+import toast from "react-hot-toast";
 
 export default function QueueDetails() {
     const {id} = useParams();
@@ -59,10 +60,10 @@ export default function QueueDetails() {
             });
             if (!res.ok) throw new Error("Ошибка завершения очереди");
 
-            alert("Очередь завершена");
+            toast.success("Очередь завершена");
             setQueue((prev) => prev ? {...prev, status: "closed"} : prev);
         } catch (err) {
-            alert("Ошибка при завершении очереди");
+            toast.error("Ошибка при завершении очереди");
             console.error(err);
         }
     };
@@ -126,11 +127,11 @@ export default function QueueDetails() {
                                             const err = await res.json();
                                             throw new Error(err.detail || "Ошибка");
                                         }
-                                        alert("Вы отметили сдачу, следующий сдающий назначен.");
+                                        toast.success("Вы отметили сдачу, следующий сдающий назначен.");
                                         loadStudents();
                                     } catch (err) {
                                         console.error(err);
-                                        alert("Не удалось завершить сдачу");
+                                        toast.error("Не удалось завершить сдачу");
                                     }
                                 }}
                                 className="bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition"

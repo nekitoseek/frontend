@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useAuth} from "../context/AuthContext";
 import {getGroups} from "../api/groups";
 import {Group} from "../types/Queue";
+import toast from "react-hot-toast";
 
 export default function Profile() {
     const {user, setUser} = useAuth();
@@ -72,9 +73,9 @@ export default function Profile() {
 
             const updated = await res.json();
             setUser(updated);
-            alert("Профиль обновлен");
+            toast.success("Профиль обновлен");
         } catch (err) {
-            alert("Ошибка при обновлении профиля");
+            toast.error("Ошибка при обновлении профиля");
             console.error(err);
         }
     };

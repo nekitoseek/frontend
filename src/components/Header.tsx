@@ -1,5 +1,5 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useAuth} from "../context/AuthContext.tsx";
+import {useAuth} from "../context/AuthContext";
 
 export default function Header() {
     const {user, setUser} = useAuth();

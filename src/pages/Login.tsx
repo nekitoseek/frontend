@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { login } from "../api/auth";
-import { useAuth } from "../context/AuthContext";
-import { getCurrentUser } from "../api/auth";
+import {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {login, getCurrentUser} from "../api/auth";
+import {useAuth} from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function Login() {
     const [formData, setFormData] = useState({username: '', password: ''});
     const navigate = useNavigate();
-    const { setUser } = useAuth();
+    const {setUser} = useAuth();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({...formData, [event.target.name]: event.target.value});
@@ -27,14 +27,15 @@ export default function Login() {
             setUser(me);
             navigate('/queues');
         } catch (err: unknown) {
-            alert("Ошибка входа");
+            toast.error("Ошибка входа")
             console.error(err);
         }
     };
 
     return (
         <>
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-4">
+            <div
+                className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-4">
                 <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-100">
                     <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Вход в систему</h2>
                     <form onSubmit={handleSubmit} className="space-y-4">

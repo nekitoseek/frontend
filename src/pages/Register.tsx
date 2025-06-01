@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getGroups } from "../api/groups";
 import { Group } from "../types/Queue";
+import toast from "react-hot-toast";
 
 export default function Register() {
     const { user, loading, setUser } = useAuth();
@@ -35,7 +36,7 @@ export default function Register() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            alert("Пароли не совпадают");
+            toast.error("Пароли не совпадают");
             return;
         }
 
@@ -54,7 +55,7 @@ export default function Register() {
 
             if (!registerRes.ok) {
                 const err = await registerRes.json();
-                alert("Ошибка регистрации: " + err.detail);
+                toast.error("Ошибка регистрации: " + err.detail);
                 return;
             }
 
@@ -70,7 +71,7 @@ export default function Register() {
             });
 
             if (!res.ok) {
-                alert("Регистрация успешна, но вход не выполнен.");
+                toast.error("Регистрация успешна, но вход не выполнен.");
                 navigate("/login");
                 return;
             }
@@ -88,7 +89,7 @@ export default function Register() {
 
         } catch (err) {
             console.error(err);
-            alert("Ошибка регистрации")
+            toast.error("Ошибка регистрации")
         }
     };
 

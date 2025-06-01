@@ -1,17 +1,37 @@
 import { Queue } from "../types/Queue";
 
 // отображение очередей
-export const fetchQueues = async (status: string): Promise<Queue[]> => {
+export const fetchQueues = async (status: string, search?:string): Promise<Queue[]> => {
     const token = localStorage.getItem("token");
 
-    const query = status ? `?status=${status}` : "";
-    const res = await fetch(`/api/queues${query}`, {
+    const params = new URLSearchParams();
+    if (status) params.append("status", status);
+    if (search) params.append("search", search);
+    const query = params.toString();
+    // console.log(search);
+    const res = await fetch(`/api/queues${query ? `?${query}` : ""}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!res.ok) throw new Error("Ошибка загрузки очередей");
     return res.json();
 };
+
+// отображение очередей администратору
+export const fetchAdminQueues = async (search?: string): Promise<Queue[]> => {
+    const token = localStorage.getItem("token");
+    const params = new URLSearchParams();
+
+    if (search) params.append("search", search);
+    const query = params.toString();
+
+    const res = await fetch(`/api/admin/queues${query ? `?${query}` : ""}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) throw new Error("Ошибка загрузки очередей");
+    return res.json();
+}
 
 // присоединение к очереди
 export const joinQueue = async (queueId: number) => {
