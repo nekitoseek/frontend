@@ -1,7 +1,7 @@
-import { Queue } from "../types/Queue";
+import {Queue} from "../types/Queue";
 
 // отображение очередей
-export const fetchQueues = async (status: string, search?:string): Promise<Queue[]> => {
+export const fetchQueues = async (status: string, search?: string): Promise<Queue[]> => {
     const token = localStorage.getItem("token");
 
     const params = new URLSearchParams();
@@ -10,7 +10,7 @@ export const fetchQueues = async (status: string, search?:string): Promise<Queue
     const query = params.toString();
     // console.log(search);
     const res = await fetch(`/api/queues${query ? `?${query}` : ""}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
     });
 
     if (!res.ok) throw new Error("Ошибка загрузки очередей");
@@ -26,7 +26,7 @@ export const fetchAdminQueues = async (search?: string): Promise<Queue[]> => {
     const query = params.toString();
 
     const res = await fetch(`/api/admin/queues${query ? `?${query}` : ""}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
     });
 
     if (!res.ok) throw new Error("Ошибка загрузки очередей");
@@ -38,7 +38,7 @@ export const joinQueue = async (queueId: number) => {
     const token = localStorage.getItem("token");
     const res = await fetch(`/api/queues/${queueId}/join`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
     });
 
     if (!res.ok) throw new Error("Ошибка присоединения к очереди");
@@ -49,7 +49,7 @@ export const leaveQueue = async (queueId: number) => {
     const token = localStorage.getItem("token");
     const res = await fetch(`/api/queues/${queueId}/leave`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
     });
 
     if (!res.ok) throw new Error("Ошибка выхода из очереди");
@@ -59,7 +59,7 @@ export const leaveQueue = async (queueId: number) => {
 export const fetchQueueStudents = async (queueId: number) => {
     const token = localStorage.getItem("token");
     const res = await fetch(`/api/queues/${queueId}/students`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {Authorization: `Bearer ${token}`},
     });
 
     if (!res.ok) throw new Error("Не удалось загрузить участников");

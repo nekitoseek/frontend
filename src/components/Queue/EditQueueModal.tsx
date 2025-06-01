@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Discipline, Group, Queue} from "../types/Queue";
-import {getGroups} from "../api/groups";
+import {Discipline, Group, Queue} from "../../types/Queue.ts";
+import {getGroups} from "../../api/groups.ts";
 import toast from "react-hot-toast";
 
 

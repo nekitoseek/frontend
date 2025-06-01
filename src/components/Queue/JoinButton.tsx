@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {joinQueue, fetchQueueStudents} from "../api/queues";
-import {useAuth} from "../context/AuthContext";
+import {joinQueue, fetchQueueStudents} from "../../api/queues.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 import toast from "react-hot-toast";
 
 type Props = {

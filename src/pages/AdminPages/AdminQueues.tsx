@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {Queue} from "../../types/Queue.ts";
 import {Link} from "react-router-dom";
-import EditQueueModal from "../../components/EditQueueModal.tsx";
-import {SearchInput} from "../../components/SearchInput.tsx";
+import EditQueueModal from "../../components/Queue/EditQueueModal.tsx";
+import {SearchInput} from "../../components/Queue/SearchInput.tsx";
 import {fetchAdminQueues} from "../../api/queues.ts";
 import toast from "react-hot-toast";
 

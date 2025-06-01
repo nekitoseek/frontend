@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {Link} from "react-router-dom";
-import {Queue} from "../types/Queue";
-import JoinButton from "./JoinButton";
-import QueueCount from "./QueueCount";
+import {Queue} from "../../types/Queue.ts";
+import JoinButton from "./JoinButton.tsx";
+import QueueCount from "./QueueCount.tsx";
 
 type Props = {
     queue: Queue;

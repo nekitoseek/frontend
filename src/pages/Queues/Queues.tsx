@@ -2,8 +2,8 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Queue} from "../../types/Queue.ts";
 import {fetchQueues} from "../../api/queues.ts";
-import QueueCard from "../../components/QueueCard.tsx";
-import {SearchInput} from "../../components/SearchInput.tsx";
+import QueueCard from "../../components/Queue/QueueCard.tsx";
+import {SearchInput} from "../../components/Queue/SearchInput.tsx";
 
 const statuses = [
     {label: "Активные", value: "active"},

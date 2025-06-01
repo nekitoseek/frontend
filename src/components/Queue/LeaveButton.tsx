@@ -1,4 +1,4 @@
-import { leaveQueue } from "../api/queues";
+import { leaveQueue } from "../../api/queues.ts";
 import toast from "react-hot-toast";
 
 type Props = {

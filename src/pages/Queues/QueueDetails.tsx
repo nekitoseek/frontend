@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Queue} from "../../types/Queue.ts";
-import JoinButton from "../../components/JoinButton.tsx";
-import LeaveButton from "../../components/LeaveButton.tsx";
-import EditQueueModal from "../../components/EditQueueModal.tsx";
+import JoinButton from "../../components/Queue/JoinButton.tsx";
+import LeaveButton from "../../components/Queue/LeaveButton.tsx";
+import EditQueueModal from "../../components/Queue/EditQueueModal.tsx";
 import {fetchQueueStudents} from "../../api/queues.ts";
 import {useAuth} from "../../context/AuthContext.tsx";
 import {Student} from "../../types/Student.ts";
