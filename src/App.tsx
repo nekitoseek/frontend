@@ -1,19 +1,21 @@
 import {Routes, Route} from 'react-router-dom';
 import {Toaster} from "react-hot-toast";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import QueueDetails from "./pages/QueueDetails";
-import Queues from "./pages/Queues";
+import Register from "./pages/Authorization/Register.tsx";
+import Login from "./pages/Authorization/Login.tsx";
+import QueueDetails from "./pages/Queues/QueueDetails.tsx";
+import Queues from "./pages/Queues/Queues.tsx";
 import RequireAuth from "./components/RequireAuth";
 import Header from "./components/Header";
-import CreateQueuePage from "./pages/CreateQueuePage";
+import CreateQueuePage from "./pages/Queues/CreateQueuePage.tsx";
 import Profile from "./pages/Profile";
-import AdminGroups from "./pages/AdminGroups";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminDisciplines from "./pages/AdminDisciplines";
-import AdminQueues from "./pages/AdminQueues";
+import AdminGroups from "./pages/AdminPages/AdminGroups.tsx";
+import AdminDashboard from "./pages/AdminPages/AdminDashboard.tsx";
+import AdminDisciplines from "./pages/AdminPages/AdminDisciplines.tsx";
+import AdminQueues from "./pages/AdminPages/AdminQueues.tsx";
 import Footer from "./components/Footer";
+import AdminUsers from "./pages/AdminPages/AdminUsers.tsx";
+import AdminUserProfile from "./pages/AdminPages/AdminUserProfile.tsx";
 
 export default function App() {
 
@@ -50,6 +52,8 @@ export default function App() {
                         <Route path="/admin/groups" element={<RequireAuth><AdminGroups/></RequireAuth>}/>
                         <Route path="/admin/disciplines" element={<RequireAuth><AdminDisciplines/></RequireAuth>}/>
                         <Route path="/admin/queues" element={<RequireAuth><AdminQueues/></RequireAuth>}/>
+                        <Route path="/admin/users/:userId" element={<RequireAuth><AdminUserProfile/></RequireAuth>}/>
+                        <Route path="/admin/users" element={<RequireAuth><AdminUsers/></RequireAuth>}/>
                         <Route path="/admin" element={<RequireAuth><AdminDashboard/></RequireAuth>}/>
                     </Routes>
                 </main>

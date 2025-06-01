@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { getGroups } from "../api/groups";
-import { Group } from "../types/Queue";
+import { useAuth } from "../../context/AuthContext.tsx";
+import { getGroups } from "../../api/groups.ts";
+import { Group } from "../../types/Queue.ts";
 import toast from "react-hot-toast";
 
 export default function Register() {

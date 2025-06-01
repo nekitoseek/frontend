@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {Queue} from "../types/Queue";
-import JoinButton from "../components/JoinButton";
-import LeaveButton from "../components/LeaveButton";
-import EditQueueModal from "../components/EditQueueModal";
-import {fetchQueueStudents} from "../api/queues";
-import {useAuth} from "../context/AuthContext";
-import {Student} from "../types/Student";
+import {Queue} from "../../types/Queue.ts";
+import JoinButton from "../../components/JoinButton.tsx";
+import LeaveButton from "../../components/LeaveButton.tsx";
+import EditQueueModal from "../../components/EditQueueModal.tsx";
+import {fetchQueueStudents} from "../../api/queues.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
+import {Student} from "../../types/Student.ts";
 import toast from "react-hot-toast";
 
 export default function QueueDetails() {
@@ -145,7 +145,7 @@ export default function QueueDetails() {
                             setJoinVersion(prev => prev + 1);
                         }}/>
                         {isJoined && <LeaveButton queueId={queue.id} onChange={loadStudents}/>}
-                        {(user?.id === queue.creator_id || user?.username === "admin") && queue.status !== "closed" && (
+                        {(user?.id === queue.creator_id || user?.is_admin) && queue.status !== "closed" && (
                             <>
                                 <button onClick={handleManualClose}
                                         className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition">
@@ -191,7 +191,7 @@ export default function QueueDetails() {
                                                     )}
                                                 </div>
                                             </div>
-                                            {user?.username === "admin" && (
+                                            {user?.is_admin && (
                                                 <div className="text-sm text-gray-400 text-right min-w-fit ml-4">
                                                     Присоединился: {new Date(s.joined_at).toLocaleString("ru-RU")}
                                                 </div>

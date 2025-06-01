@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getGroups} from "../api/groups";
-import {Group} from "../types/Queue";
+import {getGroups} from "../../api/groups.ts";
+import {Group} from "../../types/Queue.ts";
 import toast from "react-hot-toast";
 
 export default function CreateQueuePage() {
@@ -50,6 +50,8 @@ export default function CreateQueuePage() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
         const scheduled_date = new Date(formData.scheduled_date);
         const now = new Date();
         const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000);
@@ -58,7 +60,6 @@ export default function CreateQueuePage() {
             toast.error("Очередь можно создать не ранее, чем за 1 день до начала сдачи");
             return;
         }
-        e.preventDefault();
         const token = localStorage.getItem("token");
 
         if (formData.group_ids.length === 0) {

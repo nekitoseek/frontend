@@ -14,7 +14,7 @@ export default function RequireAuth({ children }: { children: JSX.Element }) {
         return <Navigate to="/" state={{ from: location }} replace />
     }
 
-    if (isAdminRoute && user.username !== "admin") {
+    if (isAdminRoute && !user.is_admin) {
         return <Navigate to="/" replace />;
     }
     return children;

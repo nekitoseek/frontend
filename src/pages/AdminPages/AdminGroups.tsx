@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getGroups} from "../api/groups.ts";
+import {getGroups} from "../../api/groups.ts";
 import toast from "react-hot-toast";
 
 export default function AdminGroups() {

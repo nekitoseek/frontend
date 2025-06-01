@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { joinQueue, fetchQueueStudents } from "../api/queues";
+import {joinQueue, fetchQueueStudents} from "../api/queues";
 import {useAuth} from "../context/AuthContext";
 import toast from "react-hot-toast";
 
@@ -10,8 +10,8 @@ type Props = {
     autoCheck?: boolean;
 };
 
-export default function JoinButton({ queueId, onChange, disabled, autoCheck = false }: Props) {
-    const { user } = useAuth();
+export default function JoinButton({queueId, onChange, disabled, autoCheck = false}: Props) {
+    const {user} = useAuth();
     const [joined, setJoined] = useState(false);
     const [loading, setLoading] = useState(autoCheck);
 

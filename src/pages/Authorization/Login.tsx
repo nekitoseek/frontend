@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {login, getCurrentUser} from "../api/auth";
-import {useAuth} from "../context/AuthContext";
+import {login, getCurrentUser} from "../../api/auth.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 import toast from "react-hot-toast";
 
 export default function Login() {
@@ -22,7 +22,7 @@ export default function Login() {
 
         try {
             const res = await login(data);
-            localStorage.setItem('token', res.data.access_token);
+            localStorage.setItem('token', res.access_token);
             const me = await getCurrentUser();
             setUser(me);
             navigate('/queues');

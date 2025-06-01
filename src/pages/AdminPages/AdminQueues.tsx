@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import {Queue} from "../types/Queue";
+import {Queue} from "../../types/Queue.ts";
 import {Link} from "react-router-dom";
-import EditQueueModal from "../components/EditQueueModal";
-import {SearchInput} from "../components/SearchInput";
-import {fetchAdminQueues} from "../api/queues.ts";
+import EditQueueModal from "../../components/EditQueueModal.tsx";
+import {SearchInput} from "../../components/SearchInput.tsx";
+import {fetchAdminQueues} from "../../api/queues.ts";
 import toast from "react-hot-toast";
 
 export default function AdminQueues() {

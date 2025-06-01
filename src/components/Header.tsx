@@ -24,7 +24,7 @@ export default function Header() {
                             {location.pathname !== "/queues" && (
                                 <Link to="/queues" className="hover:text-gray-900 transition">Очереди</Link>
                             )}
-                            {location.pathname !== "/admin" && user?.username === "admin" && (
+                            {location.pathname !== "/admin" && user?.is_admin && (
                                 <Link to="/admin" className="hover:text-gray-900 transition">Админ-панель</Link>
                             )}
                             <Link to="/profile"
