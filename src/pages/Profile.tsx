@@ -184,6 +184,48 @@ export default function Profile() {
                             </div>
                         </form>
                     )}
+                    {/*<div className="mt-10 bg-sky-50 border border-sky-200 rounded-xl p-5 text-center">*/}
+                    {/*    <h3 className="text-lg font-semibold text-sky-700 mb-2">Telegram-бот</h3>*/}
+                    {/*    <p className="text-gray-600 text-sm mb-3">*/}
+                    {/*        Получайте уведомления об очередях и записывайтесь напрямую через Telegram.*/}
+                    {/*    </p>*/}
+                    {/*    <a*/}
+                    {/*        href="https://t.me/ElectronicQueuesBot"*/}
+                    {/*        target="_blank"*/}
+                    {/*        rel="noopener noreferrer"*/}
+                    {/*        className="inline-block bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium px-5 py-2 rounded-xl shadow transition"*/}
+                    {/*    >*/}
+                    {/*        Перейти в бота*/}
+                    {/*    </a>*/}
+                    {/*</div>*/}
+                    <div className="mt-10 bg-sky-50 border border-sky-200 rounded-xl p-5 text-center">
+                        <h3 className="text-lg font-semibold text-sky-700 mb-2">Интеграция с Telegram</h3>
+                        {user?.telegram_id ? (
+                            <>
+                                <p className="text-green-700 text-sm mb-3">
+                                    Telegram подключён ✅<br/>
+                                    <span className="text-gray-500 text-xs">(ID: {user.telegram_id})</span>
+                                </p>
+                                <p className="text-gray-600 text-sm">
+                                    Вы будете получать уведомления и сможете управлять очередями через бота.
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-gray-600 text-sm mb-3">
+                                    Подключите Telegram, чтобы получать уведомления и управлять очередями.
+                                </p>
+                                <a
+                                    href="https://t.me/ElectronicQueuesBot"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium px-5 py-2 rounded-xl shadow transition"
+                                >
+                                    Подключить Telegram
+                                </a>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </>

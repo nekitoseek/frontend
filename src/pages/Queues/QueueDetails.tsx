@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {Queue} from "../../types/Queue.ts";
 import JoinButton from "../../components/Queue/JoinButton.tsx";
 import LeaveButton from "../../components/Queue/LeaveButton.tsx";
@@ -77,6 +77,12 @@ export default function QueueDetails() {
     return (
         <>
             <div className="max-w-4xl mx-auto px-4 py-12">
+                <Link
+                    to="/queues"
+                    className="inline-block mb-6 text-sky-600 hover:underline underline-offset-4 transition text-sm font-medium"
+                >
+                    ← Назад к очередям
+                </Link>
                 <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-4">{queue.title}</h1>
                     <p className="text-gray-600 mb-2">
@@ -86,6 +92,9 @@ export default function QueueDetails() {
                         )}
                         {queue.status === "closed" && (
                             <span className="text-red-600 font-medium">Закрыта</span>
+                        )}
+                        {queue.status === "upcoming" && (
+                            <span className="text-yellow-600 font-medium">Скоро начнется</span>
                         )}
                     </p>
                     <p className="text-gray-600 mb-2">
@@ -102,9 +111,6 @@ export default function QueueDetails() {
                     })}{" "}
                         {new Date(queue.scheduled_date).toLocaleDateString("ru-RU")}
                     </p>
-                    {/*<p className="text-gray-600 mb-4">*/}
-                    {/*    <span className="font-medium">Статус:</span> {queue.status}*/}
-                    {/*</p>*/}
                     <p className="text-gray-600 mb-2">
                         <span className="font-medium">Дисциплина:</span> {queue.discipline.name}
                     </p>
@@ -136,11 +142,11 @@ export default function QueueDetails() {
                                 }}
                                 className="bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition"
                             >
-                                Я сдал
+                                Я сдал /<br/>Приём завершён
                             </button>
                         )}
 
-                        <JoinButton key={joinVersion} queueId={queue.id} autoCheck onChange={() => {
+                        <JoinButton key={joinVersion} queueId={queue.id} status={queue.status} autoCheck onChange={() => {
                             loadStudents();
                             setJoinVersion(prev => prev + 1);
                         }}/>

@@ -1,7 +1,10 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getGroups} from "../../api/groups.ts";
-import {Group} from "../../types/Queue.ts";
+import Select from "react-select";
+import { ru } from "date-fns/locale";
+import DatePicker from "react-datepicker";
+import {getGroups} from "../../api/groups";
+import {Group} from "../../types/Queue";
 import toast from "react-hot-toast";
 
 export default function CreateQueuePage() {
@@ -9,6 +12,8 @@ export default function CreateQueuePage() {
 
     type Discipline = { id: number; name: string };
 
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
     const [groups, setGroups] = useState<Group[]>([]);
     const [disciplines, setDisciplines] = useState<Discipline[]>([]);
     const [formData, setFormData] = useState({
@@ -40,32 +45,38 @@ export default function CreateQueuePage() {
         setFormData((prev) => ({...prev, [name]: value}));
     };
 
-    const toggleGroup = (id: number) => {
-        setFormData((prev) => ({
-            ...prev,
-            group_ids: prev.group_ids.includes(id)
-                ? prev.group_ids.filter((g) => g !== id)
-                : [...prev.group_ids, id],
-        }));
-    };
+    // const toggleGroup = (id: number) => {
+    //     setFormData((prev) => ({
+    //         ...prev,
+    //         group_ids: prev.group_ids.includes(id)
+    //             ? prev.group_ids.filter((g) => g !== id)
+    //             : [...prev.group_ids, id],
+    //     }));
+    // };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const scheduled_date = new Date(formData.scheduled_date);
+        const startDate = new Date(formData.scheduled_date);
+        const endDate = new Date(formData.scheduled_end);
         const now = new Date();
         const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
-        if (scheduled_date > oneDayLater) {
+        if (startDate > oneDayLater) {
             toast.error("Очередь можно создать не ранее, чем за 1 день до начала сдачи");
             return;
         }
-        const token = localStorage.getItem("token");
+
+        if (endDate < startDate) {
+            toast.error("Дата окончания не может быть раньше даты начала");
+            return;
+        }
 
         if (formData.group_ids.length === 0) {
             toast.error("Выберите хотя бы одну группу");
             return;
         }
+        const token = localStorage.getItem("token");
 
         const response = await fetch("/api/queues", {
             method: "POST",
@@ -113,63 +124,121 @@ export default function CreateQueuePage() {
                                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition resize-none"
                             />
                         </div>
+                        {/*<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">*/}
+                        {/*    <div>*/}
+                        {/*        <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время*/}
+                        {/*            начала</label>*/}
+                        {/*        <input*/}
+                        {/*            type="datetime-local"*/}
+                        {/*            name="scheduled_date"*/}
+                        {/*            value={formData.scheduled_date}*/}
+                        {/*            onChange={handleChange}*/}
+                        {/*            required*/}
+                        {/*            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"*/}
+                        {/*        />*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время*/}
+                        {/*            окончания</label>*/}
+                        {/*        <input*/}
+                        {/*            type="datetime-local"*/}
+                        {/*            name="scheduled_end"*/}
+                        {/*            value={formData.scheduled_end}*/}
+                        {/*            onChange={handleChange}*/}
+                        {/*            required*/}
+                        {/*            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"*/}
+                        {/*        />*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время
-                                    начала</label>
-                                <input
-                                    type="datetime-local"
-                                    name="scheduled_date"
-                                    value={formData.scheduled_date}
-                                    onChange={handleChange}
-                                    required
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время начала</label>
+                                <DatePicker
+                                    selected={startDate}
+                                    onChange={(date) => {
+                                        setStartDate(date);
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            scheduled_date: date ? date.toISOString() : ""
+                                        }));
+                                    }}
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={15}
+                                    dateFormat="dd.MM.yyyy HH:mm"
+                                    minDate={new Date()}
+                                    locale={ru}
                                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                                    placeholderText="Выберите дату и время"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время
-                                    окончания</label>
-                                <input
-                                    type="datetime-local"
-                                    name="scheduled_end"
-                                    value={formData.scheduled_end}
-                                    onChange={handleChange}
-                                    required
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время окончания</label>
+                                <DatePicker
+                                    selected={endDate}
+                                    onChange={(date) => {
+                                        setEndDate(date);
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            scheduled_end: date ? date.toISOString() : ""
+                                        }));
+                                    }}
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={15}
+                                    dateFormat="dd.MM.yyyy HH:mm"
+                                    minDate={new Date()}
+                                    locale={ru}
                                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"
+                                    placeholderText="Выберите дату и время"
                                 />
                             </div>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Дисциплина</label>
-                            <select
-                                name="discipline_id"
-                                value={formData.discipline_id}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 focus:ring-2 focus:ring-sky-400 outline-none transition"
-                            >
-                                <option value="">Выберите дисциплину</option>
-                                {disciplines.map((d) => (
-                                    <option key={d.id} value={d.id}>{d.name}</option>
-                                ))}
-                            </select>
+                            <Select
+                                options={disciplines.map(d => ({ value: d.id, label: d.name }))}
+                                onChange={(selected) => {
+                                    setFormData(prev => ({
+                                        ...prev, discipline_id: selected ? String(selected.value) : ""
+                                    }));
+                                }}
+                                value={
+                                    disciplines.length
+                                        ? disciplines
+                                        .map(d => ({ value: d.id, label: d.name }))
+                                        .find(opt => opt.value === Number(formData.discipline_id)) || null
+                                        : null
+                                }
+                                placeholder="Выберите дисциплину"
+                                isClearable
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                            />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-2">Группы:</label>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                {groups.map((group) => (
-                                    <label key={group.id}
-                                           className="flex items-center space-x-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg cursor-pointer transition">
-                                        <input
-                                            type="checkbox"
-                                            checked={formData.group_ids.includes(group.id)}
-                                            onChange={() => toggleGroup(group.id)}
-                                            className="accent-sky-600"
-                                        />
-                                        <span className="text-gray-800 text-sm">{group.name}</span>
-                                    </label>
-                                ))}
+                            <Select
+                                isMulti
+                                options={groups.map(g => ({ value: g.id, label: g.name }))}
+                                onChange={(selected) => {
+                                    const ids = selected.map((s) => s.value);
+                                    setFormData((prev) => ({...prev, group_ids: ids}));
+                                }}
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                                placeholder="Выберите группы..."
+                            />
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                {groups
+                                    .filter(g => formData.group_ids.includes(g.id))
+                                    .map(g => (
+                                        <span key={g.id} className="bg-sky-100 text-sky-800 text-sm px-3 py-1 rounded-full shadow-sm">
+                                            {g.name}
+                                        </span>
+                                    ))}
                             </div>
+
                         </div>
                         <button
                             type="submit"

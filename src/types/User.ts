@@ -10,4 +10,5 @@ export type User = {
     };
     is_admin: boolean;
     is_active: boolean;
+    telegram_id: string
 };

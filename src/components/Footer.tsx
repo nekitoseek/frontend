@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
         <>
-            <footer className="bg-gray-100 border-t border-gray-200 py-6 mt-20">
+            <footer className="bg-gray-100 border-t border-gray-200 py-6">
                 <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm text-gray-600">
                     <div>
                         <h3 className="text-base font-semibold text-gray-800 mb-2">О системе</h3>

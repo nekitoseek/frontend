@@ -23,6 +23,19 @@ export default function AdminUsers() {
         <div
             className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-purple-50 px-4 py-12 flex items-center justify-center">
             <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                <div className="mb-4">
+                    <Link
+                        to="/admin"
+                        className="inline-flex items-center text-sky-600 hover:text-sky-800 text-sm font-medium transition"
+                    >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round"
+                                  d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        Назад в админку
+                    </Link>
+                </div>
                 <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Пользователи</h1>
 
                 <input
@@ -46,6 +59,7 @@ export default function AdminUsers() {
                                 <div>
                                     <p className="text-gray-800 font-semibold">{user.full_name}</p>
                                     <p className="text-sm text-gray-500">{user.email}</p>
+                                    <p className="text-sm text-gray-500">Группа: {user.group?.name}</p>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <span

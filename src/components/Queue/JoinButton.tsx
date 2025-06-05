@@ -5,12 +5,13 @@ import toast from "react-hot-toast";
 
 type Props = {
     queueId: number;
+    status: string;
     onChange?: () => void;
     disabled?: boolean;
     autoCheck?: boolean;
 };
 
-export default function JoinButton({queueId, onChange, disabled, autoCheck = false}: Props) {
+export default function JoinButton({queueId, onChange, disabled, autoCheck = false, status}: Props) {
     const {user} = useAuth();
     const [joined, setJoined] = useState(false);
     const [loading, setLoading] = useState(autoCheck);
@@ -33,6 +34,8 @@ export default function JoinButton({queueId, onChange, disabled, autoCheck = fal
 
     const isDisabled = autoCheck ? joined : disabled;
 
+    if (status === "closed") return null;
+    if (loading) return null;
     const handleJoin = async () => {
         if (isDisabled) return;
         try {
@@ -44,8 +47,6 @@ export default function JoinButton({queueId, onChange, disabled, autoCheck = fal
             toast.error("Ошибка присоединения к очереди");
         }
     };
-
-    if (loading) return null;
 
     return (
         <>

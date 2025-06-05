@@ -42,9 +42,6 @@ export default function QueueCard({queue}: Props) {
                             <span className="text-red-600 font-medium">Закрыта</span>
                         )}
                     </p>
-                    {/*{queue.description && (*/}
-                    {/*    <p className="text-sm text-gray-600 mb-4">{queue.description}</p>*/}
-                    {/*)}*/}
                     <p className="text-sm text-gray-500 mb-1">
                         <span className="font-medium">Дисциплина:</span> {queue.discipline.name}
                     </p>
@@ -63,7 +60,7 @@ export default function QueueCard({queue}: Props) {
                     <QueueCount queueId={queue.id} key={version}/>
                 </div>
                 <div className="mt-auto flex items-center justify-between pt-4">
-                    <JoinButton key={version} queueId={queue.id} autoCheck onChange={handleJoin}/>
+                    <JoinButton key={version} queueId={queue.id} status={queue.status} autoCheck onChange={handleJoin}/>
                     <Link
                         to={`/queues/${queue.id}`}
                         className="text-sky-600 hover:underline text-sm font-medium transition"

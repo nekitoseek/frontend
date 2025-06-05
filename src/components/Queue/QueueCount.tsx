@@ -17,7 +17,13 @@ export default function QueueCount({ queueId }: Props) {
             },
         })
             .then((res) => res.json())
-            .then((data) => setCount(data.length))
+            .then((data) => {
+                const filtered = data.filter(
+                    (student: { status: string }) =>
+                        student.status === "waiting" || student.status === "current"
+                );
+                setCount(filtered.length);
+            })
             .catch(() => setCount(null));
     }, [queueId]);
 

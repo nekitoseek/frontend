@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
-import {getGroups} from "../../api/groups.ts";
+import {getGroups} from "../../api/groups";
+import {Link} from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function AdminGroups() {
@@ -38,7 +39,7 @@ export default function AdminGroups() {
             toast.error("Ошибка: " + err.detail);
             return;
         }
-
+        toast.success("Группа добавлена")
         setNewGroup("");
         fetchGroups();
     };
@@ -89,6 +90,19 @@ export default function AdminGroups() {
             <div
                 className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-4 py-12">
                 <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                    <div className="mb-4">
+                        <Link
+                            to="/admin"
+                            className="inline-flex items-center text-sky-600 hover:text-sky-800 text-sm font-medium transition"
+                        >
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round"
+                                      d="M15 19l-7-7 7-7"/>
+                            </svg>
+                            Назад в админку
+                        </Link>
+                    </div>
                     <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Управление группами</h1>
 
                     <div className="flex flex-col sm:flex-row gap-4 mb-8">
