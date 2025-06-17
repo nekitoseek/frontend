@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Select from "react-select";
-import { ru } from "date-fns/locale";
+import {ru} from "date-fns/locale";
 import DatePicker from "react-datepicker";
 import {getGroups} from "../../api/groups";
 import {Group} from "../../types/Queue";
@@ -44,15 +44,6 @@ export default function CreateQueuePage() {
         const {name, value} = e.target;
         setFormData((prev) => ({...prev, [name]: value}));
     };
-
-    // const toggleGroup = (id: number) => {
-    //     setFormData((prev) => ({
-    //         ...prev,
-    //         group_ids: prev.group_ids.includes(id)
-    //             ? prev.group_ids.filter((g) => g !== id)
-    //             : [...prev.group_ids, id],
-    //     }));
-    // };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -124,35 +115,10 @@ export default function CreateQueuePage() {
                                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition resize-none"
                             />
                         </div>
-                        {/*<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">*/}
-                        {/*    <div>*/}
-                        {/*        <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время*/}
-                        {/*            начала</label>*/}
-                        {/*        <input*/}
-                        {/*            type="datetime-local"*/}
-                        {/*            name="scheduled_date"*/}
-                        {/*            value={formData.scheduled_date}*/}
-                        {/*            onChange={handleChange}*/}
-                        {/*            required*/}
-                        {/*            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*    <div>*/}
-                        {/*        <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время*/}
-                        {/*            окончания</label>*/}
-                        {/*        <input*/}
-                        {/*            type="datetime-local"*/}
-                        {/*            name="scheduled_end"*/}
-                        {/*            value={formData.scheduled_end}*/}
-                        {/*            onChange={handleChange}*/}
-                        {/*            required*/}
-                        {/*            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none transition"*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время начала</label>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время
+                                    начала</label>
                                 <DatePicker
                                     selected={startDate}
                                     onChange={(date) => {
@@ -173,7 +139,8 @@ export default function CreateQueuePage() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время окончания</label>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">Дата и время
+                                    окончания</label>
                                 <DatePicker
                                     selected={endDate}
                                     onChange={(date) => {
@@ -197,7 +164,7 @@ export default function CreateQueuePage() {
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-1">Дисциплина</label>
                             <Select
-                                options={disciplines.map(d => ({ value: d.id, label: d.name }))}
+                                options={disciplines.map(d => ({value: d.id, label: d.name}))}
                                 onChange={(selected) => {
                                     setFormData(prev => ({
                                         ...prev, discipline_id: selected ? String(selected.value) : ""
@@ -206,7 +173,7 @@ export default function CreateQueuePage() {
                                 value={
                                     disciplines.length
                                         ? disciplines
-                                        .map(d => ({ value: d.id, label: d.name }))
+                                        .map(d => ({value: d.id, label: d.name}))
                                         .find(opt => opt.value === Number(formData.discipline_id)) || null
                                         : null
                                 }
@@ -220,7 +187,7 @@ export default function CreateQueuePage() {
                             <label className="block text-sm font-medium text-gray-600 mb-2">Группы:</label>
                             <Select
                                 isMulti
-                                options={groups.map(g => ({ value: g.id, label: g.name }))}
+                                options={groups.map(g => ({value: g.id, label: g.name}))}
                                 onChange={(selected) => {
                                     const ids = selected.map((s) => s.value);
                                     setFormData((prev) => ({...prev, group_ids: ids}));
@@ -233,7 +200,8 @@ export default function CreateQueuePage() {
                                 {groups
                                     .filter(g => formData.group_ids.includes(g.id))
                                     .map(g => (
-                                        <span key={g.id} className="bg-sky-100 text-sky-800 text-sm px-3 py-1 rounded-full shadow-sm">
+                                        <span key={g.id}
+                                              className="bg-sky-100 text-sky-800 text-sm px-3 py-1 rounded-full shadow-sm">
                                             {g.name}
                                         </span>
                                     ))}

@@ -1,21 +1,21 @@
 import {Routes, Route} from 'react-router-dom';
 import {Toaster} from "react-hot-toast";
 import Home from "./pages/Home";
-import Register from "./pages/Authorization/Register.tsx";
-import Login from "./pages/Authorization/Login.tsx";
-import QueueDetails from "./pages/Queues/QueueDetails.tsx";
-import Queues from "./pages/Queues/Queues.tsx";
+import Register from "./pages/Authorization/Register";
+import Login from "./pages/Authorization/Login";
+import QueueDetails from "./pages/Queues/QueueDetails";
+import Queues from "./pages/Queues/Queues";
 import RequireAuth from "./components/RequireAuth";
 import Header from "./components/Header";
-import CreateQueuePage from "./pages/Queues/CreateQueuePage.tsx";
+import CreateQueuePage from "./pages/Queues/CreateQueuePage";
 import Profile from "./pages/Profile";
-import AdminGroups from "./pages/AdminPages/AdminGroups.tsx";
-import AdminDashboard from "./pages/AdminPages/AdminDashboard.tsx";
-import AdminDisciplines from "./pages/AdminPages/AdminDisciplines.tsx";
-import AdminQueues from "./pages/AdminPages/AdminQueues.tsx";
+import AdminGroups from "./pages/AdminPages/AdminGroups";
+import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import AdminDisciplines from "./pages/AdminPages/AdminDisciplines";
+import AdminQueues from "./pages/AdminPages/AdminQueues";
 import Footer from "./components/Footer";
-import AdminUsers from "./pages/AdminPages/AdminUsers.tsx";
-import AdminUserProfile from "./pages/AdminPages/AdminUserProfile.tsx";
+import AdminUsers from "./pages/AdminPages/AdminUsers";
+import AdminUserProfile from "./pages/AdminPages/AdminUserProfile";
 
 export default function App() {
 

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {Queue} from "../../types/Queue.ts";
 import {Link} from "react-router-dom";
-import EditQueueModal from "../../components/Queue/EditQueueModal.tsx";
-import {SearchInput} from "../../components/Queue/SearchInput.tsx";
-import {fetchAdminQueues} from "../../api/queues.ts";
 import toast from "react-hot-toast";
+import {Queue} from "../../types/Queue";
+import EditQueueModal from "../../components/Queue/EditQueueModal";
+import {SearchInput} from "../../components/Queue/SearchInput";
+import {fetchAdminQueues} from "../../api/queues";
 
 export default function AdminQueues() {
     const [queues, setQueues] = useState<Queue[]>([]);
@@ -148,13 +148,15 @@ export default function AdminQueues() {
                                     </p>
                                     <p className="text-sm text-gray-600">
                                         <span className="font-medium">Статус:</span>{" "}
-                                        <span className={
-                                            q.status === "active" ? "text-green-600" :
-                                                q.status === "closed" ? "text-red-600" :
-                                                    "text-yellow-600"
-                                        }>
-                                            {q.status}
-                                        </span>
+                                        {q.status === "active" && (
+                                            <span className="text-green-600 font-medium">Активна</span>
+                                        )}
+                                        {q.status === "upcoming" && (
+                                            <span className="text-yellow-600 font-medium">Скоро начнется</span>
+                                        )}
+                                        {q.status === "closed" && (
+                                            <span className="text-red-600 font-medium">Закрыта</span>
+                                        )}
                                     </p>
                                     <p className="text-sm text-gray-600"><span
                                         className="font-medium">Создатель:</span> {q.creator?.username || "–"}</p>

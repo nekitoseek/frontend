@@ -1,4 +1,4 @@
-import { leaveQueue } from "../../api/queues.ts";
+import {leaveQueue} from "../../api/queues";
 import toast from "react-hot-toast";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
     onChange?: () => void;
 };
 
-export default function LeaveButton({ queueId, onChange }: Props) {
+export default function LeaveButton({queueId, onChange}: Props) {
     const handleLeave = async () => {
         try {
             await leaveQueue(queueId);
@@ -22,7 +22,7 @@ export default function LeaveButton({ queueId, onChange }: Props) {
         <>
             <button
                 onClick={handleLeave}
-                className="bg-red-100 hover:bg-red-200 text-red-700 font-medium text-sm py-2 px-4 rounded-xl transition shadow-sm"
+                className="w-full sm:w-auto bg-red-100 hover:bg-red-200 text-red-700 font-medium text-sm py-2 px-4 rounded-xl transition shadow-sm"
             >
                 Покинуть очередь
             </button>

@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {Queue} from "../../types/Queue.ts";
-import JoinButton from "../../components/Queue/JoinButton.tsx";
-import LeaveButton from "../../components/Queue/LeaveButton.tsx";
-import EditQueueModal from "../../components/Queue/EditQueueModal.tsx";
-import {fetchQueueStudents} from "../../api/queues.ts";
-import {useAuth} from "../../context/AuthContext.tsx";
-import {Student} from "../../types/Student.ts";
+import {Queue} from "../../types/Queue";
+import JoinButton from "../../components/Queue/JoinButton";
+import LeaveButton from "../../components/Queue/LeaveButton";
+import EditQueueModal from "../../components/Queue/EditQueueModal";
+import {fetchQueueStudents} from "../../api/queues";
+import {useAuth} from "../../context/AuthContext";
+import {Student} from "../../types/Student";
 import toast from "react-hot-toast";
 
 export default function QueueDetails() {
@@ -119,7 +119,7 @@ export default function QueueDetails() {
                             <span className="font-medium">Группы:</span> {queue.groups.map((g) => g.name).join(", ")}
                         </p>
                     )}
-                    <div className="flex gap-4 mt-6">
+                    <div className="flex flex-wrap gap-4 mt-6">
                         {isCurrent && (
                             <button
                                 onClick={async () => {
@@ -140,25 +140,27 @@ export default function QueueDetails() {
                                         toast.error("Не удалось завершить сдачу");
                                     }
                                 }}
-                                className="bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition"
+                                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition"
                             >
                                 Я сдал /<br/>Приём завершён
                             </button>
                         )}
 
-                        <JoinButton key={joinVersion} queueId={queue.id} status={queue.status} autoCheck onChange={() => {
-                            loadStudents();
-                            setJoinVersion(prev => prev + 1);
-                        }}/>
+                        <JoinButton key={joinVersion} queueId={queue.id} status={queue.status} autoCheck
+                                    onChange={() => {
+                                        loadStudents();
+                                        setJoinVersion(prev => prev + 1);
+                                    }}
+                        />
                         {isJoined && <LeaveButton queueId={queue.id} onChange={loadStudents}/>}
                         {(user?.id === queue.creator_id || user?.is_admin) && queue.status !== "closed" && (
                             <>
                                 <button onClick={handleManualClose}
-                                        className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition">
+                                        className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition">
                                     Завершить очередь
                                 </button>
                                 <button onClick={() => setEditing(true)}
-                                        className="bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition">
+                                        className="w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium py-2 px-4 rounded-xl shadow transition">
                                     Редактировать
                                 </button>
                             </>
@@ -198,7 +200,8 @@ export default function QueueDetails() {
                                                 </div>
                                             </div>
                                             {user?.is_admin && (
-                                                <div className="text-sm text-gray-400 text-right min-w-fit ml-4">
+                                                <div
+                                                    className="text-sm text-gray-400 text-right ml-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] sm:max-w-none">
                                                     Присоединился: {new Date(s.joined_at).toLocaleString("ru-RU")}
                                                 </div>
                                             )}

@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {Link} from "react-router-dom";
-import {Queue} from "../../types/Queue.ts";
-import JoinButton from "./JoinButton.tsx";
-import QueueCount from "./QueueCount.tsx";
+import {Queue} from "../../types/Queue";
+import JoinButton from "./JoinButton";
+import QueueCount from "./QueueCount";
 
 type Props = {
     queue: Queue;
@@ -52,10 +52,6 @@ export default function QueueCard({queue}: Props) {
                                 {queue.groups.map((g) => g.name).join(", ")}
                             </span>
                         </div>
-                        // <p className="text-sm text-gray-500 mb-2">
-                        //     <span className="font-medium">Группы:</span>{" "}
-                        //     {queue.groups.map((g) => g.name).join(", ")}
-                        // </p>
                     )}
                     <QueueCount queueId={queue.id} key={version}/>
                 </div>

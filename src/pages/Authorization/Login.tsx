@@ -27,7 +27,7 @@ export default function Login() {
             setUser(me);
             navigate('/queues');
         } catch (err: unknown) {
-            toast.error("Ошибка входа")
+            toast.error("Ошибка входа" + err)
             console.error(err);
         }
     };
